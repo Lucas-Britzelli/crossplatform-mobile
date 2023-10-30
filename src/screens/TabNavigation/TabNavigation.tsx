@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Button } from '@rneui/base'
 
 const HomeScreen = ({ navigation }) => {
@@ -24,15 +24,15 @@ function DetailsScreen() {
     )
 }
 
-const Stack = createNativeStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
     return (
         <NavigationContainer>
-            <Stack.Navigator>
-                <Stack.Screen name="Home" component={HomeScreen}></Stack.Screen>
-                <Stack.Screen name="Details" component={DetailsScreen}></Stack.Screen>
-            </Stack.Navigator>
+            <Tab.Navigator>
+                <Tab.Screen name="Home" component={HomeScreen}></Tab.Screen>
+                <Tab.Screen name="Details" component={DetailsScreen}></Tab.Screen>
+            </Tab.Navigator>
         </NavigationContainer>
     )
 }
