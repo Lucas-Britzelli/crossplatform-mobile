@@ -12,7 +12,7 @@ const firebaseConfig = {
   projectId: "iths-crossplatform-975a0",
   storageBucket: "iths-crossplatform-975a0.appspot.com",
   messagingSenderId: "802101019687",
-  appId: "1:802101019687:web:6eb185fbfd68465f29fa02"
+  appId: "1:802101019687:web:6eb185fbfd68465f29fa02",
 };
 
 // Initialize Firebase
