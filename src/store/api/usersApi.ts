@@ -13,11 +13,11 @@ import { db } from "../../../firebase-config";
 
 const firebaseBaseQuery = async ({ baseUrl, url, method, body }) => {
   switch (method) {
-    case "GET":
+    case "GET": {
       const snapshot = await getDocs(collection(db, url));
       const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       return { data };
-
+    }
     case "POST":
       const docRef = await addDoc(collection(db, url), body);
       return { data: { id: docRef.id, ...body } };
