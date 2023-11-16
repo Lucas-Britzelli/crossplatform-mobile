@@ -16,6 +16,7 @@ const UserListStackScreen = () => {
     <UserListStack.Navigator>
       <UserListStack.Screen name="UserList" component={UserList} />
       <UserListStack.Screen name="UserInfo" component={UserInfo} />
+      <UserListStack.Screen name="UserForm" component={UserForm} />
     </UserListStack.Navigator>
   );
 };

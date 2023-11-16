@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 import { createApi } from "@reduxjs/toolkit/query/react";
 import {
   addDoc,
@@ -18,17 +17,21 @@ const firebaseBaseQuery = async ({ baseUrl, url, method, body }) => {
       const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
       return { data };
     }
-    case "POST":
+
+    case "POST": {
       const docRef = await addDoc(collection(db, url), body);
       return { data: { id: docRef.id, ...body } };
+    }
 
-    case "DELETE":
+    case "DELETE": {
       const docDelRef = await deleteDoc(doc(db, url, body));
       return { data: { id: docDelRef } };
+    }
 
-    case "PUT":
+    case "PUT": {
       await updateDoc(doc(db, url, body.id), body);
       return { data: { ...body } };
+    }
 
     default:
       throw new Error(`Unhandled method ${method}`);

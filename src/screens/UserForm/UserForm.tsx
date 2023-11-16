@@ -1,5 +1,7 @@
+import { useRoute, RouteProp } from "@react-navigation/native";
 import { Input, Button } from "@rneui/themed";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import {
   Text,
   View,
@@ -9,16 +11,38 @@ import {
 } from "react-native";
 import { useToast } from "react-native-toast-notifications";
 
-import { useCreateUserMutation } from "../../store/api/usersApi";
+import {
+  useCreateUserMutation,
+  useUpdateUserMutation,
+} from "../../store/api/usersApi";
+type UserFormRouteParams = {
+  user: {
+    id: string;
+    firstName: string;
+    lastName: string;
+  };
+};
 
 export const UserForm = (props) => {
   const { navigation } = props;
   const lastNameRef = useRef(null);
 
+  const { t } = useTranslation();
+  const route =
+    useRoute<RouteProp<Record<string, UserFormRouteParams>, "UserForm">>();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [createUser, { isLoading }] = useCreateUserMutation();
+  const [updateUser] = useUpdateUserMutation();
+  const isEditing = route.params?.user;
   const toast = useToast();
+  const user = route.params?.user;
+  useEffect(() => {
+    if (isEditing) {
+      setFirstName(route.params?.user.firstName || "");
+      setLastName(route.params?.user.lastName || "");
+    }
+  }, [route.params?.user]);
 
   const handleSubmit = () => {
     console.log("firstName: ", firstName);
@@ -36,28 +60,48 @@ export const UserForm = (props) => {
       return;
     }
 
-    createUser({
-      user: {
-        firstName,
-        lastName,
-      },
-    })
-      .then(() => {
-        navigation.navigate("UserList");
-        toast.show(`Användaren ${firstName} ${lastName} har skapats!`, {
-          type: "success",
-          placement: "top",
-          duration: 4000,
-          animationType: "slide-in",
-        });
-        setFirstName("");
-        setLastName("");
+    if (isEditing) {
+      console.log(user);
+      updateUser({
+        user: { id: user.id, firstName, lastName },
       })
-      .catch((error) => {
-        toast.show(error, { type: "danger" });
-      });
+        .then(() => {
+          navigation.navigate("UserList");
+          toast.show(`Användaren ${firstName} ${lastName} har uppdaterats!`, {
+            type: "success",
+            placement: "top",
+            duration: 4000,
+            animationType: "slide-in",
+          });
+          setFirstName("");
+          setLastName("");
+        })
+        .catch((error) => {
+          toast.show(error, { type: "danger" });
+        });
+    } else {
+      createUser({
+        user: {
+          firstName,
+          lastName,
+        },
+      })
+        .then(() => {
+          navigation.navigate("UserList");
+          toast.show(`Användaren ${firstName} ${lastName} har skapats!`, {
+            type: "success",
+            placement: "top",
+            duration: 4000,
+            animationType: "slide-in",
+          });
+          setFirstName("");
+          setLastName("");
+        })
+        .catch((error) => {
+          toast.show(error, { type: "danger" });
+        });
+    }
   };
-
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.parentContainer}>
@@ -82,7 +126,7 @@ export const UserForm = (props) => {
             placeholder="Last name"
           />
           <Button
-            title="Create user"
+            title={t("createUser")}
             disabled={isLoading}
             loading={isLoading}
             onPress={() => handleSubmit()}
