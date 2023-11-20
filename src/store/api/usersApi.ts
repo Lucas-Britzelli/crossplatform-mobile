@@ -24,7 +24,7 @@ const firebaseBaseQuery = async ({ baseUrl, url, method, body }) => {
     }
 
     case "DELETE": {
-      const docDelRef = await deleteDoc(doc(db, url, body));
+      const docDelRef = await deleteDoc(doc(db, url, body.id));
       return { data: { id: docDelRef } };
     }
 

@@ -126,7 +126,7 @@ export const UserForm = (props) => {
             placeholder="Last name"
           />
           <Button
-            title={t("createUser")}
+            title={t("Create User")}
             disabled={isLoading}
             loading={isLoading}
             onPress={() => handleSubmit()}

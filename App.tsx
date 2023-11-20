@@ -10,7 +10,6 @@ import UserList from "./src/screens/UserList/UserList";
 import { store } from "./src/store/store";
 
 const UserListStack = createNativeStackNavigator();
-
 const UserListStackScreen = () => {
   return (
     <UserListStack.Navigator>
@@ -19,6 +18,10 @@ const UserListStackScreen = () => {
       <UserListStack.Screen name="UserForm" component={UserForm} />
     </UserListStack.Navigator>
   );
+};
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export type UserListStackScreen = {
+  UserList: undefined;
 };
 
 const Tab = createBottomTabNavigator();
