@@ -21,10 +21,19 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.lucasbritzelli.crossplatformmobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "7b5b61fc-e6e9-4904-9396-4cad66922345"
+      }
+    },
+    "plugins": [
+      "expo-localization"
+    ]
   }
 }

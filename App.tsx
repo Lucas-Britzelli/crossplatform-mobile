@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { ToastProvider } from "react-native-toast-notifications";
 import { Provider, useSelector } from "react-redux";
 
+import PostForm from "./src/screens/PostForm/PostForm";
+import PostList from "./src/screens/PostList/PostList";
 import { UserForm } from "./src/screens/UserForm/UserForm";
 import { UserInfo } from "./src/screens/UserInfo/UserInfo";
 import UserList from "./src/screens/UserList/UserList";
@@ -16,6 +18,7 @@ const UserListStackScreen = () => {
       <UserListStack.Screen name="UserList" component={UserList} />
       <UserListStack.Screen name="UserInfo" component={UserInfo} />
       <UserListStack.Screen name="UserForm" component={UserForm} />
+      <UserListStack.Screen name="UserPosts" component={PostList} />
     </UserListStack.Navigator>
   );
 };
@@ -37,7 +40,9 @@ const NavigationWrapper = () => {
           component={UserListStackScreen}
           options={{ headerShown: false }}
         />
-        <Tab.Screen name="UserForm" component={UserForm} />
+        <Tab.Screen name="PostList" component={PostList} />
+        {loggedInAs && <Tab.Screen name="PostForm" component={PostForm} />}
+        {loggedInAs && <Tab.Screen name="UserForm" component={UserForm} />}
         {loggedInAs && (
           <Tab.Screen
             name="UserInfo"

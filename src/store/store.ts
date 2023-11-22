@@ -3,6 +3,7 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 import { persistReducer, persistStore } from "redux-persist";
 
+import { postsApi } from "./api/postsApi";
 import { usersApi } from "./api/usersApi";
 import authSlice from "./slices/authSlice";
 
@@ -24,6 +25,7 @@ const persistedReducer = persistReducer(
   persistConfig,
   combineReducers({
     [usersApi.reducerPath]: usersApi.reducer,
+    [postsApi.reducerPath]: postsApi.reducer,
     auth: authSlice,
   }),
 );
@@ -39,8 +41,10 @@ export const store = configureStore({
           "persist/PURGE",
         ],
       },
-    }).concat(...middlewares),
+    }).concat(usersApi.middleware, postsApi.middleware),
 });
+
+export type RootState = ReturnType<typeof store.getState>;
 
 export const persistor = persistStore(store);
 
